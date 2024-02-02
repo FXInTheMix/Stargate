@@ -12,67 +12,49 @@ chevrons_impaire = [8,2]
 chevrons=[6,8,10,2,4]
 anneau= [7,9,11,0,1,3,5]
 
+# Couleurs utilisées
+eteint = (0,0,0)
+bleu = (0,0,2)
+bleuIntense = (0,0,20)
+rouge = (30,2,0)
+rougeIntense = (70,7,0)
+
 # Turn off all LEDs before program start
 ring.fill((0,0,0))
 ring.write()
 time.sleep(1)
 
 
-def tour_clock():
-    for x in anneau:
-        ring [x]=(0,0,2)
+def tour_clock(liste, couleur):
+    for x in liste:
+        ring [x]=couleur
         ring.write()
         time.sleep(0.5)
 
-def tour_anticlock():
-    for x in reversed (anneau):
-        ring [x]=(0,0,2)
+def setAllLeds(liste, couleur):
+    for x in liste:
+        ring [x]=couleur
         ring.write()
-        time.sleep(0.5)
-
-
-def reset_tour():
-    for x in reversed (anneau):
-        ring [x]=(0,0,0)
-        ring.write()
-        
-def ouverture():
-    for x in anneau:
-        ring [x]=(0,0,2)
-        ring.write()
-        
-def blast_ouverture():
-    for x in anneau:
-        ring [x]=(0,0,20)
-        ring.write()   
     
 
 for i in chevrons:
     if i in chevrons_paire:
-        tour_clock()
-        time.sleep(0.75)
-        ring[i]=(30,2,0)
-        ring.write()
-        time.sleep(0.5)
-        ring[i]=(70,7,0)
-        ring.write()
-        time.sleep(0.5)
-        reset_tour()
-        time.sleep(0.5)
-    if i in chevrons_impaire:
-        tour_anticlock()
-        time.sleep(0.75)
-        ring[i]=(30,2,0)
-        ring.write()
-        time.sleep(0.5)
-        ring[i]=(70,7,0)
-        ring.write()
-        time.sleep(0.5)
-        reset_tour()
-        time.sleep(0.5)
+        tour_clock(anneau, bleu)
+    else:
+        tour_clock(reversed(anneau),bleu)
 
-ouverture()
+    time.sleep(0.75)
+    ring[i]=rouge
+    ring.write()
+    time.sleep(0.5)
+    ring[i]=rougeIntense
+    ring.write()
+    time.sleep(0.5)
+    setAllLeds(anneau,eteint)
+    time.sleep(0.5)
+
+setAllLeds(anneau, bleu)
 time.sleep(0.05)
-blast_ouverture()
+setAllLeds(anneau, bleuIntense)
 time.sleep(1)
-ouverture() 
+setAllLeds(anneau, bleu) 
